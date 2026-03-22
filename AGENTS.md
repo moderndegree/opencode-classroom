@@ -1,70 +1,100 @@
-# AGENTS.md
+# OpenSpec Classroom - Agent Guidelines
 
-This repository contains the opencode-classroom project.
+## Build & Development Commands
 
-## Build/Lint/Test Commands
+```bash
+# Development server
+npm run dev
 
-Since this repository is currently empty, no build/lint/test commands are configured.
+# Production build
+npm run build
 
-When adding code, common commands for different languages:
+# Start production server
+npm run start
 
-**TypeScript/JavaScript:**
-- `npm run lint` - Run linter
-- `npm run test` - Run all tests
-- `npm run test -- --testNamePattern="pattern"` - Run single test
-- `npm run build` - Build project
+# Linting
+npm run lint
+```
 
-**Python:**
-- `ruff check .` - Lint
-- `pytest` - Run all tests
-- `pytest -k "test_name"` - Run single test
-- `mypy .` - Type check
-
-**Go:**
-- `golangci-lint run` - Lint
-- `go test ./...` - Run all tests
-- `go test -run TestName` - Run single test
+**Note**: No test framework is currently configured. Tests should be added as needed.
 
 ## Code Style Guidelines
 
-### General
-- Follow language-specific conventions (PEP 8 for Python, ESLint for JS/TS, etc.)
-- Use meaningful names for variables, functions, and classes
-- Write clear, concise comments explaining *why* not *what*
+### TypeScript & React
+- Use TypeScript with strict mode enabled
+- Use React 19 with Next.js 16 App Router
+- Files: `.ts`, `.tsx`, `.mts`
+- Use `Readonly<{ children: React.ReactNode }>` for props in layouts
+- Export components as `default function ComponentName()`
+- Use `import type` for type-only imports
 
-### TypeScript/JavaScript
-- Use TypeScript for new code
-- Import order: stdlib → external → internal
-- Use camelCase for functions/variables, PascalCase for types/classes
-- Prefer `const`/`let` over `var`
-- Use optional chaining (`?.`) and nullish coalescing (`??`)
-- Handle errors with try/catch or proper error types
+### Imports & Module Resolution
+- Use path aliases: `@/*` maps to `.*/*`
+- Import order: React → External → Internal → Types
+- Use default imports for default exports
+- Use named imports for named exports
 
-### Python
-- Use PEP 8 style guide
-- Import order: stdlib → third-party → local
-- Use snake_case for functions/variables, PascalCase for classes
-- Type hints required for all function signatures
-- Use context managers for resource handling
+### Formatting
+- Use 2-space indentation
+- Use single quotes for strings
+- Use semicolons consistently
+- Use PascalCase for component names
+- Use camelCase for functions, variables, and hooks
+- Use kebab-case for CSS classes and file names
+
+### Styling
+- Use Tailwind CSS v4 with `@tailwindcss/postcss`
+- Use CSS variables for theme colors (`--background`, `--foreground`)
+- Use semantic color names from theme
+- Follow existing class naming patterns
 
 ### Error Handling
-- Use specific error types when possible
-- Provide meaningful error messages
-- Don't swallow errors silently
-- Log errors appropriately
+- Use try-catch for async operations
+- Return early on invalid inputs
+- Use TypeScript non-null assertion (`!`) only when guaranteed
+- Add fallback values for optional props
 
-## Cursor/Copilot Rules
+### Naming Conventions
+- Components: PascalCase (e.g., `UserProfile`)
+- Hooks: `use` prefix (e.g., `useAuth`)
+- Constants: UPPER_SNAKE_CASE (e.g., `MAX_RETRIES`)
+- Boolean variables: `is`, `has`, `should` prefix (e.g., `isLoading`)
 
-No Cursor or Copilot rules configured.
+### File Structure
+- Pages: `app/<route>/page.tsx`
+- Layouts: `app/layout.tsx`
+- Components: `app/components/<Component>.tsx`
+- Utilities: `lib/<utility>.ts`
 
-## Project Structure
+## OpenSpec Workflow
 
-Expected structure:
+This project uses OpenSpec for change management:
+
+```bash
+# Propose a new change
+/opsx-propose <change-name-or-description>
+
+# Apply a change
+/opsx-apply <change-name>
+
+# Explore ideas
+/opsx-explore <topic>
+
+# Archive a completed change
+/opsx-archive <change-name>
 ```
-opencode-classroom/
-├── src/              # Source code
-├── tests/            # Test files
-├── docs/             # Documentation
-├── examples/         # Example code
-└── README.md
-```
+
+See `.opencode/command/` for full documentation.
+
+## Linting & Type Checking
+
+- ESLint with Next.js core web vitals rules
+- TypeScript strict mode enabled
+- Run `npm run lint` before committing
+- Fix all type errors before submitting code
+
+## Git Workflow
+
+- Commit messages should be concise and descriptive
+- Use present tense: "Add feature" not "Added feature"
+- Reference issue/PR numbers when applicable
